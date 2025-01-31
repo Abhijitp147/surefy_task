@@ -26,12 +26,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
           // Get contact
           Contact contact = widget.contacts[index];
           String phoneType = '';
+          String firstName =
+              widget.contacts[index].displayName!.characters.first;
 
           // Determine if the phone number starts with 9 or 8
           if (contact.phones != null && contact.phones!.isNotEmpty) {
-            String phoneNumber = contact.phones!.first.value ?? '';
+            String phoneNumber = contact.phones!.first.value!;
             if (phoneNumber.isNotEmpty) {
-              if (phoneNumber.startsWith('9')) {
+              if (phoneNumber.startsWith('+91')) {
                 phoneType = 'Personal';
               } else if (phoneNumber.startsWith('8')) {
                 phoneType = 'Business';
@@ -40,21 +42,25 @@ class _ContactsScreenState extends State<ContactsScreen> {
           }
 
           return ListTile(
-            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             leading: CircleAvatar(
               radius: 24,
-              backgroundImage:
-                  (contact.avatar != null && contact.avatar!.isNotEmpty)
-                      ? MemoryImage(contact.avatar!)
-                      : const AssetImage('assets/image1.png')
-                          as ImageProvider, // Default image if no avatar
+              // backgroundImage:
+              //     (contact.avatar != null && contact.avatar!.isNotEmpty)
+              //         ? MemoryImage(contact.avatar!)
+              //         : null,
+              child: (contact.avatar != null && contact.avatar!.isNotEmpty)
+                  ? MemoryImage(contact.avatar!) as Image
+                  : Text(firstName), // Default image if no avatar
             ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   contact.displayName ?? 'Unnamed',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   width: 60,
@@ -65,9 +71,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 ),
               ],
             ),
-            subtitle: contact.phones?.isNotEmpty ?? false
-                ? Text(contact.phones!.first.value ?? 'No phone number')
-                : null,
+            subtitle: contact.phones!.isNotEmpty
+                ? Text(contact.phones!.first.value!)
+                : Text('No phone number'),
             onTap: () {
               // Navigate to the PersonalCallInfo screen
               Navigator.push(
@@ -75,8 +81,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 MaterialPageRoute(
                   builder: (context) => PresonalCallInfo(
                     contactName: contact.displayName ?? 'Unnamed',
-                    // phoneNumber:
-                    //     contact.phones!.first.value ?? 'No phone number',
+                    phoneNumber: contact.phones!.isNotEmpty
+                        ? contact.phones!.first.value!
+                        : 'No phone number',
                     // phoneType: phoneType,
                   ),
                 ),

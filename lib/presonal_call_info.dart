@@ -4,12 +4,13 @@ class PresonalCallInfo extends StatelessWidget {
   const PresonalCallInfo({
     super.key,
     required this.contactName,
+    required this.phoneNumber,
   });
   final double coverHeight = 210;
   final profileHeight = 150;
 
   final String contactName;
-
+  final String? phoneNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +36,11 @@ class PresonalCallInfo extends StatelessWidget {
               cards('Notes', Icons.note_add)
             ],
           ),
+          SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Align(
                   alignment: Alignment.topLeft,
@@ -45,25 +48,28 @@ class PresonalCallInfo extends StatelessWidget {
                     'Contact Info',
                   ),
                 ),
+                SizedBox(height: 8),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 16.0),
                     child: Column(
                       children: [
-                        contactTile('+9191919191991', 'Work'),
+                        contactTile(phoneNumber!, 'Work'),
                         const Divider(),
-                        contactTile('+9191919191991', 'Work'),
+                        contactTile(phoneNumber!, 'Work'),
                       ],
                     ),
                   ),
                 ),
+                SizedBox(height: 8),
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Other',
                   ),
                 ),
+                SizedBox(height: 8),
                 const Card(
                   child: ListTile(
                     leading: Icon(Icons.favorite_border),
@@ -82,12 +88,14 @@ class PresonalCallInfo extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 8),
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Call History',
                   ),
                 ),
+                SizedBox(height: 8),
                 const Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(

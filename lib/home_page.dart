@@ -1,3 +1,4 @@
+import 'package:call_log/call_log.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,10 @@ class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
     required this.contacts,
+    required this.callLog,
   });
   final List<Contact> contacts;
+  final List<CallLogEntry> callLog;
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -31,11 +34,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     selectedoption = filters[0];
-    screenWidget = const CallsScreen();
+    screenWidget = CallsScreen(
+      callLog: widget.callLog,
+    );
   }
 
-  void changeScreen() async {
-    screenWidget = const CallsScreen();
+  void changeScreen() {
+    screenWidget = CallsScreen(
+      callLog: widget.callLog,
+    );
     if (selectedoption == filters[1]) {
       screenWidget = ContactsScreen(
         contacts: widget.contacts,
@@ -74,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         setState(() {
                           selectedoption = filter;
-                          changeScreen();
+                          changeScreen;
                         });
                       },
                     );

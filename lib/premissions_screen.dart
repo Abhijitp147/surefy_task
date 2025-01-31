@@ -1,3 +1,4 @@
+import 'package:call_log/call_log.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -35,12 +36,15 @@ class _PremissionsScreenState extends State<PremissionsScreen> {
   void _fetchContacts(BuildContext context) async {
     try {
       List<Contact> contacts = await ContactsService.getContacts();
-
+      Iterable<CallLogEntry> callLogs = await CallLog.get();
       // Navigate to the ContactsScreen with the contacts data
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(contacts: contacts),
+          builder: (context) => HomePage(
+            contacts: contacts,
+            callLog: callLogs.toList(),
+          ),
         ),
       );
     } catch (e) {
